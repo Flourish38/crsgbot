@@ -1,3 +1,6 @@
+import listeners.CommandListener;
+import listeners.ShutdownCommand;
+import listeners.ShutdownListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -14,8 +17,9 @@ public class Test {
     public static void main(String[] args) throws InterruptedException, LoginException, FileNotFoundException {
         Scanner scanner = new Scanner(new File("token.txt"));
         JDA jda = JDABuilder.createDefault(scanner.nextLine()).build();
+        CommandListener.setPrefix("comp ");
         jda.addEventListener(new MyListener());
-        jda.addEventListener(new ShutdownListener(jda));
+        jda.addEventListener(new ShutdownCommand());
         jda.awaitReady();
     }
 }
