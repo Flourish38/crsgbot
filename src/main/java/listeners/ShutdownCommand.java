@@ -9,6 +9,7 @@ public class ShutdownCommand extends CommandListener {
 
     @Override
     void command(GuildMessageReceivedEvent event) {
-        event.getJDA().shutdown();
+        event.getChannel().sendMessage("Shutting down...").complete();
+        event.getJDA().shutdownNow();
     }
 }
