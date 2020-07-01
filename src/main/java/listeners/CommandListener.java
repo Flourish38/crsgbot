@@ -7,20 +7,20 @@ import javax.annotation.Nonnull;
 
 public abstract class CommandListener extends ListenerAdapter {
     protected static String prefix;
-    protected String command;
+    protected final String command;
+
+    public CommandListener(String command){
+        this.command = command;
+    }
 
     @Override
     public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
 
-        var msg = event.getMessage();
+        var raw = event.getMessage().getContentRaw();
 
-        if((msg.getMentionedMembers().size() > 0
-                && msg.getMentionedMembers().get(0).getId().equals(event.getJDA().getSelfUser().getId())
-                && msg.getContentRaw().contains(command)) // bot pinged
-            ||
-                (prefix != null
-                && msg.getContentRaw().startsWith(prefix + command))) // msg starts with prefix
+        if((raw.startsWith(event.getJDA().getSelfUser().getAsMention() + " " + command)) // ping as prefix
+            || (prefix != null && raw.startsWith(prefix + command))) // msg starts with prefix
         {
             command(event);
         }

@@ -7,7 +7,7 @@ import java.util.Random;
 public class FindbarterCommand extends CommandListener {
     private static final Random rng = new Random();
     public FindbarterCommand(){
-        command = "findbarter";
+        super("findbarter");
     }
 
     @Override

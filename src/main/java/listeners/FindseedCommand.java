@@ -7,7 +7,7 @@ import java.util.Random;
 public class FindseedCommand extends CommandListener {
     private static final Random rng = new Random();
     public FindseedCommand(){
-        command = "findseed";
+        super("findseed");
     }
 
     @Override

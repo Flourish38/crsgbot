@@ -6,7 +6,7 @@ import java.time.Duration;
 
 public class PingCommand extends CommandListener{
     public PingCommand(){
-        command = "ping";
+        super("ping");
     }
 
     @Override

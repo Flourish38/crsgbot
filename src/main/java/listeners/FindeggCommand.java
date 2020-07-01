@@ -7,7 +7,7 @@ import java.util.Random;
 public class FindeggCommand extends CommandListener {
     private static final Random rng = new Random();
     public FindeggCommand(){
-        command = "findegg";
+        super("findegg");
     }
 
     @Override

@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class ShutdownCommand extends CommandListener {
     public ShutdownCommand(){
-        command = "shutdown";
+        super("shutdown");
     }
 
     @Override

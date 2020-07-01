@@ -17,6 +17,8 @@ public class Bot {
         jda.addEventListener(new FindseedCommand());
         jda.addEventListener(new FindbarterCommand());
         jda.addEventListener(new FindeggCommand());
+        jda.addEventListener(new FindflintCommand());
         jda.awaitReady();
+
     }
 }
