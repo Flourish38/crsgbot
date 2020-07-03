@@ -1,6 +1,7 @@
 package listeners;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -11,7 +12,7 @@ public class FindeggCommand extends CommandListener {
     }
 
     @Override
-    void command(GuildMessageReceivedEvent event) {
+    void command(@NotNull GuildMessageReceivedEvent event) {
         if(rng.nextFloat() < 0.2 && rng.nextFloat() < 0.15)
             event.getChannel().sendMessage("The fox had an egg!").queue();
         else {

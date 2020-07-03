@@ -1,6 +1,7 @@
 package listeners;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ShutdownCommand extends CommandListener {
     public ShutdownCommand(){
@@ -8,8 +9,9 @@ public class ShutdownCommand extends CommandListener {
     }
 
     @Override
-    void command(GuildMessageReceivedEvent event) {
+    void command(@NotNull GuildMessageReceivedEvent event) {
         event.getChannel().sendMessage("Shutting down...").complete();
-        event.getJDA().shutdownNow();
+        ShutdownHandler.handle(event);
+        event.getJDA().shutdown();
     }
 }

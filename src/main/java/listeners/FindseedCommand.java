@@ -1,6 +1,7 @@
 package listeners;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -11,7 +12,7 @@ public class FindseedCommand extends CommandListener {
     }
 
     @Override
-    void command(GuildMessageReceivedEvent event) {
+    void command(@NotNull GuildMessageReceivedEvent event) {
         int eye = 0;
         for(int i = 0; i < 12; i++)
             if (rng.nextFloat() < 0.1f)

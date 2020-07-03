@@ -1,6 +1,7 @@
 package listeners;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -11,7 +12,7 @@ public class FindbarterCommand extends CommandListener {
     }
 
     @Override
-    void command(GuildMessageReceivedEvent event) {
+    void command(@NotNull GuildMessageReceivedEvent event) {
         int gold = 0;
         int pearls = 0;
         for(; pearls < 12; gold++)

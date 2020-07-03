@@ -1,6 +1,7 @@
 package listeners;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Random;
@@ -12,12 +13,12 @@ public class FindflintCommand extends ParameterCommand {
     }
 
     @Override
-    void command(GuildMessageReceivedEvent event, List<String> params) {
+    void command(@NotNull GuildMessageReceivedEvent event, List<String> params) {
         int n;
         try {
             n = Integer.parseInt(params.get(0));
-        } catch (Exception e)
-        {
+        }
+        catch (Exception e) {
             event.getChannel().sendMessage("An error occurred. Did you pass an integer as the first argument?").queue();
             return;
         }

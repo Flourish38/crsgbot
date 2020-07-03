@@ -30,6 +30,6 @@ public abstract class CommandListener extends ListenerAdapter {
         prefix = p;
     }
 
-    abstract void command(GuildMessageReceivedEvent event);
+    abstract void command(@Nonnull GuildMessageReceivedEvent event);
 
 }

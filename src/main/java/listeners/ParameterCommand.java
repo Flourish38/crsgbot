@@ -2,6 +2,7 @@ package listeners;
 
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,11 +14,11 @@ public abstract class ParameterCommand extends CommandListener {
     }
 
     @Override
-    void command(GuildMessageReceivedEvent event) {
+    void command(@Nonnull GuildMessageReceivedEvent event) {
         String raw = event.getMessage().getContentRaw();
         raw = raw.substring(raw.indexOf(command) + command.length()).strip();
         command(event, Arrays.asList(raw.split(" ")));
     }
 
-    abstract void command(GuildMessageReceivedEvent event, List<String> params);
+    abstract void command(@Nonnull GuildMessageReceivedEvent event, List<String> params);
 }
