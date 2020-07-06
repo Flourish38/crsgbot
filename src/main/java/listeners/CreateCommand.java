@@ -1,5 +1,6 @@
 package listeners;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -8,10 +9,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static listeners.BotConfig.RACES_CATEGORY_ID;
 
 public class CreateCommand  extends CommandListener{
-    private static final long CREATION_CHANNEL_ID = 728397888035749959L;
-    private static final long RACES_CATEGORY_ID = 724049312891273326L;
 
     public CreateCommand() {
         super("create");
@@ -19,17 +21,22 @@ public class CreateCommand  extends CommandListener{
 
     @Override
     void command(@Nonnull GuildMessageReceivedEvent event) {
-        if(!(event.getChannel().getIdLong() == CREATION_CHANNEL_ID)) return;
+        if(!(event.getChannel().getIdLong() == BotConfig.CREATION_CHANNEL_ID)) return;
         Category raceCategory = event.getGuild().getCategoryById(RACES_CATEGORY_ID);
-        String[] topic = event.getChannel().getTopic().split(" \\| ");
-        int races = Integer.parseInt(topic[0]);
-        var channel = raceCategory.createTextChannel("race" + ++races).setPosition(Integer.MAX_VALUE - races).complete();
+        var dataMessage = BotConfig.dataMessage(event);
+        String[] data = dataMessage.getContentRaw().split("\n");
+        int races = Integer.parseInt(data[0]);
+        var channel = raceCategory.createTextChannel("race" + ++races)
+                .setTopic("Inactive - type !start to start")
+                .setPosition(Integer.MAX_VALUE - races)
+                .complete();
+        channel.createPermissionOverride(event.getMember()).setAllow(Permission.MESSAGE_READ).queue();
         channel.sendMessage(event.getAuthor().getAsMention() + " has joined the race.").queue();
-        topic[0] = event.getAuthor().getId() + " " + channel.getId();
+        data[0] = event.getAuthor().getId() + " " + channel.getId();
         StringBuilder newTopic = new StringBuilder(Integer.toString(races));
-        for(var s : topic) {
-            newTopic.append(" | ").append(s);
+        for(var s : data) {
+            newTopic.append("\n").append(s);
         }
-        event.getChannel().getManager().setTopic(newTopic.toString()).queue();
+        dataMessage.editMessage(newTopic).queue();
     }
 }

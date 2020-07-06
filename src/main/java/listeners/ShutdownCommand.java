@@ -10,8 +10,23 @@ public class ShutdownCommand extends CommandListener {
 
     @Override
     void command(@NotNull GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage("Shutting down...").complete();
+        if(event.getAuthor().getIdLong() != BotConfig.BOT_ADMIN_ID) return;
+        event.getChannel().sendMessage("Shutting down...").queue();
         ShutdownHandler.handle(event);
         event.getJDA().shutdown();
+    }
+}
+
+class ShutdownHandler {
+
+    public static void handle(GuildMessageReceivedEvent event) {
+        var dataMessage = BotConfig.dataMessage(event);
+        String[] data = dataMessage.getContentRaw().split("\n");
+        dataMessage.editMessage(data[0]).queue();
+        for(int i = 1; i < data.length; i++){
+            var raceChannel = event.getGuild().getTextChannelById(data[i].split(" ")[1]);
+            raceChannel.sendMessage("Cancelling Race: Bot shutting down.").queue();
+            raceChannel.getManager().setTopic("Cancelled: Bot shut down").queue();
+        }
     }
 }

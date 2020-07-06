@@ -19,7 +19,13 @@ public class Bot {
         jda.addEventListener(new FindeggCommand());
         jda.addEventListener(new FindflintCommand());
         jda.addEventListener(new CreateCommand());
+        jda.addEventListener(new SignupCommand());
         jda.awaitReady();
-
+        if(jda.getTextChannelById(BotConfig.CREATION_CHANNEL_ID).retrievePinnedMessages().complete().size() == 0)
+        {
+            jda.getTextChannelById(BotConfig.CREATION_CHANNEL_ID).sendMessage("0").queue((x) -> x.pin().queue());
+        }
+        BotConfig.CREATION_DATA_MESSAGE_ID = jda.getTextChannelById(BotConfig.CREATION_CHANNEL_ID)
+                .retrievePinnedMessages().complete().get(0).getIdLong();
     }
 }
