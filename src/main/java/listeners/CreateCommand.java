@@ -22,17 +22,26 @@ public class CreateCommand  extends CommandListener{
     @Override
     void command(@Nonnull GuildMessageReceivedEvent event) {
         if(!(event.getChannel().getIdLong() == BotConfig.CREATION_CHANNEL_ID)) return;
-        Category raceCategory = event.getGuild().getCategoryById(RACES_CATEGORY_ID);
         var dataMessage = BotConfig.dataMessage(event);
-        String[] data = dataMessage.getContentRaw().split("\n");
-        int races = Integer.parseInt(data[0]);
+        List<String> data = Arrays.asList(dataMessage.getContentRaw().split("\n"));
+        for(var s : data)
+        {
+            if(s.split(" ")[0].equals(event.getAuthor().getId()))
+            {
+                event.getChannel().sendMessage("You have already created a race.").queue();
+                return;
+            }
+        }
+        Category raceCategory = event.getGuild().getCategoryById(RACES_CATEGORY_ID);
+        int races = Integer.parseInt(data.get(0));
         var channel = raceCategory.createTextChannel("race" + ++races)
                 .setTopic("Inactive - type !start to start")
                 .setPosition(Integer.MAX_VALUE - races)
                 .complete();
+        channel.sendMessage(event.getAuthor().getId()).queue((x) -> x.pin().queue());
         channel.createPermissionOverride(event.getMember()).setAllow(Permission.MESSAGE_READ).queue();
         channel.sendMessage(event.getAuthor().getAsMention() + " has joined the race.").queue();
-        data[0] = event.getAuthor().getId() + " " + channel.getId();
+        data.set(0, event.getAuthor().getId() + " " + channel.getId());
         StringBuilder newTopic = new StringBuilder(Integer.toString(races));
         for(var s : data) {
             newTopic.append("\n").append(s);

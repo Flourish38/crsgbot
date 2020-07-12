@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.List;
 
 public class SignupCommand extends ParameterCommand {
@@ -42,8 +43,15 @@ public class SignupCommand extends ParameterCommand {
     void signup(@Nonnull GuildMessageReceivedEvent event, String raceID)
     {
         var channel = event.getGuild().getTextChannelById(raceID);
+        var usersMsg = channel.retrievePinnedMessages().complete().get(0);
+        if(Arrays.asList(usersMsg.getContentRaw().split(" ")).contains(event.getAuthor().getId()))
+        {
+            event.getChannel().sendMessage("You are already signed up for this race.").queue();
+            return;
+        }
         channel.createPermissionOverride(event.getMember()).setAllow(Permission.MESSAGE_READ).queue();
-        channel.sendMessage(event.getAuthor().getAsMention() + " has joined the race.");
+        usersMsg.editMessage(usersMsg.getContentRaw() + " " + event.getAuthor().getId()).queue();
+        channel.sendMessage(event.getAuthor().getAsMention() + " has joined the race.").queue();
     }
 
 
