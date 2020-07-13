@@ -37,7 +37,7 @@ public class SignupCommand extends ParameterCommand {
         for(int i = 1; i < data.length; i++){
             message.append("\n").append(i).append(" - ").append(event.getGuild().getMemberById(data[i].split(" ")[0]).getEffectiveName());
         }
-        event.getChannel().sendMessage(message.toString()).queue();
+        event.getChannel().sendMessage(message).queue();
     }
 
     void signup(@Nonnull GuildMessageReceivedEvent event, String raceID)

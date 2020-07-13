@@ -8,6 +8,7 @@ public class BotConfig {
     public static final long CREATION_CHANNEL_ID = 729833469567303690L;
     public static final long RACES_CATEGORY_ID = 724049312891273326L;
     public static final long BOT_ADMIN_ID = 165216105197993984L;
+    public static final long MODERATOR_ROLE_ID = 728408481333510144L;
     public static long CREATION_DATA_MESSAGE_ID;
 
     public static Message dataMessage(Event event){

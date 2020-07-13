@@ -12,18 +12,21 @@ public class Bot {
         Scanner scanner = new Scanner(new File("token.txt"));
         JDA jda = JDABuilder.createDefault(scanner.nextLine()).build();
         CommandListener.setPrefix("!");
-        jda.addEventListener(new PingCommand());
-        jda.addEventListener(new ShutdownCommand());
-        jda.addEventListener(new FindseedCommand());
-        jda.addEventListener(new FindbarterCommand());
-        jda.addEventListener(new FindeggCommand());
-        jda.addEventListener(new FindflintCommand());
-        jda.addEventListener(new CreateCommand());
-        jda.addEventListener(new SignupCommand());
+        jda.addEventListener(new PingCommand(),
+                new ShutdownCommand(),
+                new FindseedCommand(),
+                new FindbarterCommand(),
+                new FindeggCommand(),
+                new FindflintCommand(),
+                new CreateCommand(),
+                new SignupCommand(),
+                new StartCommand(),
+                new LeaveCommand(),
+                new CancelCommand());
         jda.awaitReady();
         if(jda.getTextChannelById(BotConfig.CREATION_CHANNEL_ID).retrievePinnedMessages().complete().size() == 0)
         {
-            jda.getTextChannelById(BotConfig.CREATION_CHANNEL_ID).sendMessage("0").queue((x) -> x.pin().queue());
+            jda.getTextChannelById(BotConfig.CREATION_CHANNEL_ID).sendMessage("0").complete().pin().complete();
         }
         BotConfig.CREATION_DATA_MESSAGE_ID = jda.getTextChannelById(BotConfig.CREATION_CHANNEL_ID)
                 .retrievePinnedMessages().complete().get(0).getIdLong();
